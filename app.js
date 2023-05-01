@@ -1,12 +1,16 @@
 import express from "express";
 import connector from "./database/connector.js";
 import RouteServiceProvider from "./providers/RouteServiceProvider.js";
+import notFound from "./app/middlewares/notFound.js";
+import errorHandlerMiddleware from "./app/middlewares/errorHandler.js";
 
 class App {
   constructor() {
     this.server = express();
     this.middlewares();
     this.routes();
+    this.server.use(notFound);
+    this.server.use(errorHandlerMiddleware);
   }
 
   middlewares() {

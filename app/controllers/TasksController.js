@@ -16,12 +16,12 @@ class TasksController {
     var tasks = await tasksModel.find({});
     return res.json({ tasks });
   }
-  async show(req, res) {
+  async show(req, res, next) {
     try {
       var task = await tasksModel.findById(req.params.id);
       return res.json({ task });
     } catch (error) {
-      res.error(500).json({ message: "Something went wrong" });
+      next(error);
     }
   }
   async update(req, res) {
@@ -32,7 +32,7 @@ class TasksController {
       await task.save();
       return res.json({ task });
     } catch (error) {
-      res.error(500).json({ message: "Something went wrong" });
+      res.status(500).json({ message: "Something went wrong" });
     }
   }
 
